@@ -1,9 +1,31 @@
 #include <glad/glad.h>
 #include <GLFW/glfw3.h>
 #include <iostream>
+#include "context.h"
 
 const int width = WINDOW_WIDTH;
 const int height = WINDOW_HEIGHT;
+
+void OnFramebufferSizeChange(GLFWwindow* window, int width, int height) {
+	SPDLOG_INFO("framebuffer size changed: ({} x {})", width, height);
+	glViewport(0, 0, width, height);
+}
+
+void OnKeyEvent(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	SPDLOG_INFO("key: {}, scancode: {}, mods: {}{}{}", \
+		key, scancode, \
+		action == GLFW_PRESS ? "Pressed" : \
+		action == GLFW_RELEASE ?  "Released" : \
+		action == GLFW_REPEAT ? "Repeat" : "Unknown",
+		mods & GLFW_MOD_CONTROL ? "C" : "-",
+		mods & GLFW_MOD_SHIFT ? "S" : "_",
+		mods & GLFW_MOD_ALT ? "A" : "-");
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window, true);
+	}
+}
 
 int main(int ac, char **av)
 {
@@ -34,17 +56,27 @@ int main(int ac, char **av)
 		glfwTerminate();
 		return -1;
 	}
-	glViewport(0, 0, width, height);
-	glClearColor(0.0f, 0.1f, 0.2f, 0.0f);
-	// glfwSetFramebufferSizeCallback(window, OnFramebufferSizeChange);
-	// glfwSetKeyCallback(window, OnKeyEvent);
+
+	auto context = Context::Create();
+	if (!context)
+	{
+		SPDLOG_ERROR("failed to create context");
+		glfwTerminate();
+		return -1;
+	}
+
+	// OnFramebufferSizeChange(window, width, height);
+	glfwSetFramebufferSizeCallback(window, OnFramebufferSizeChange);
+	glfwSetKeyCallback(window, OnKeyEvent);
 
 	while (!glfwWindowShouldClose(window))
 	{
-		glClear(GL_COLOR_BUFFER_BIT);
+		context->Render();
 		glfwPollEvents();
 		glfwSwapBuffers(window);
 	}
+	context.reset();
+	// context = nullptr;
 
 	glfwTerminate();
 }

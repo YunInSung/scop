@@ -24,7 +24,13 @@ set(CMAKE_WARN_DEPRECATED OFF CACHE BOOL "" FORCE) # close DEPRECATION WARNING..
 project(${PROJECT_NAME})
 # 실행파일의 이름 설정
 add_executable(${PROJECT_NAME} 
-    test.cpp
+    src/main.cpp
+    src/common.cpp src/common.h
+    src/shader.cpp src/shader.h
+    src/program.cpp src/program.h
+    src/context.cpp src/context.h
+    src/buffer.cpp src/buffer.h
+    src/vertex_layout.cpp src/vertex_layout.h
 )
 
 # ExternalProject 관련 명령어 셋 추가
