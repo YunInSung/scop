@@ -31,7 +31,19 @@ add_executable(${PROJECT_NAME}
     src/context.cpp src/context.h
     src/buffer.cpp src/buffer.h
     src/vertex_layout.cpp src/vertex_layout.h
-)
+    src/image.cpp src/image.h
+    src/texture.cpp src/texture.h 
+    src/parse.cpp src/parse.h 
+    src/glm/glm.cpp src/glm/glm.hpp
+    src/glm/mat2x2.cpp src/glm/mat2x2.hpp
+    src/glm/mat3x3.cpp src/glm/mat3x3.hpp
+    src/glm/mat4x4.cpp src/glm/mat4x4.hpp
+    src/glm/type_ptr.cpp src/glm/type_ptr.hpp
+    src/glm/vec2.cpp src/glm/vec2.hpp
+    src/glm/vec3.cpp src/glm/vec3.hpp
+    src/glm/vec4.cpp src/glm/vec4.hpp
+    src/glm/compute_vector_relational.hpp
+) # 헤더파일을 같이 넣는 이유는 헤더파일이 수정되더라도 다시 컴파일 되도록하기 위함이다.
 
 # ExternalProject 관련 명령어 셋 추가
 include(Dependency.cmake)
