@@ -50,15 +50,19 @@ include(Dependency.cmake)
 
 # 우리 프로젝트에 include / lib 관련 옵션 추가
 target_include_directories(${PROJECT_NAME} PUBLIC ${DEP_INCLUDE_DIR})
+# ${DEP_INCLUDE_DIR} path가 ${PROJECT_NAME}를 컴파일할 때 반드시 필요하다!
 target_link_directories(${PROJECT_NAME} PUBLIC ${DEP_LIB_DIR})
+# ${DEP_LIB_DIR} path가 ${PROJECT_NAME} 를 링크할 때 반드시 필요하다!
+# link 과정은 그 라이브러리 안에 들어있는 바이너리 코드들, 컴파일된 코드 뭉치를 가져다가 우리 실행파일에 카피해서 옮기는 것으로 생각하면 된다.
 target_link_libraries(${PROJECT_NAME} PUBLIC ${DEP_LIBS})
+# 실제로 어떤 라이브러리를 사용할지를 결정한다.
 
 # define 매크로로 지정한 값을 실제 컴파일 과정에서 지정
 target_compile_definitions(${PROJECT_NAME} PUBLIC
     WINDOW_NAME="${WINDOW_NAME}"
     WINDOW_WIDTH=${WINDOW_WIDTH}
     WINDOW_HEIGHT=${WINDOW_HEIGHT}
-)
+) # define 매크로를 이용해 지정한 것과 똑같은 효과를 나타낸다. #define WINDOW_NAME ${WINDOW_WIDTH} 과 같다.
 
-# Dependency들이 먼저 build 될 수 있게 관계 설정
+# Dependency(${DEP_LIST})들이 먼저 build 될 수 있게 관계 설정
 add_dependencies(${PROJECT_NAME} ${DEP_LIST})

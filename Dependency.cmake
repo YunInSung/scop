@@ -38,10 +38,11 @@ ExternalProject_Add(
     PATCH_COMMAND ""
     TEST_COMMAND ""
     CMAKE_ARGS
-        -DCMAKE_INSTALL_PREFIX=${DEP_INSTALL_DIR}
+        -DCMAKE_INSTALL_PREFIX=${DEP_INSTALL_DIR} # install 디렉토리 설정
         -DGLFW_BUILD_EXAMPLES=OFF
         -DGLFW_BUILD_TESTS=OFF
         -DGLFW_BUILD_DOCS=OFF
+        #glfw example test docs를 사용하지 않겠다는 의미
 )
 
 set(DEP_LIST ${DEP_LIST} dep_glfw)
